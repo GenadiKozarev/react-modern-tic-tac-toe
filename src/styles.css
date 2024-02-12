@@ -87,4 +87,7 @@ body {
 
 .game-info {
   margin-left: 20px;
+  & ul {
+    list-style-type: none;
+  }
 }
