@@ -5,5 +5,5 @@ Build with **React**. Covered topics:
 - leveraging `useState` and `useEffect` hooks
 - lifting state up
 - declare shared state in the closest common ancestor
-- keep child components in sync with each other
+- keeping child components in sync with each other
 - the importance of immutability
