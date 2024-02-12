@@ -78,18 +78,38 @@ function Board({ xIsNext, squares, onPlay }) {
 }
 
 export default function Game() {
-    const [xIsNext, setXIsNext] = useState(true);
     // initial state: an array with 1 array with 9 null values
     const [history, setHistory] = useState([Array(9).fill(null)]);
-    // render the squares for the current move
-    const currentSquares = history[history.length - 1];
+    // keep track of which step the user is currently viewing
+    const [currentMove, setCurrentMove] = useState(0);
+    // even number, determines "X" or "O"
+    const xIsNext = currentMove % 2 === 0;
+    const currentSquares = history[currentMove];
 
     function handlePlay(nextSquares) {
-        // append the updated squares array as a new history entry
-        setHistory([...history, nextSquares]);
-        // flip between X and O on each click
-        setXIsNext(!xIsNext);
+        // Create a new history array by concatenating the existing history up to the current move
+        // with the next squares representing the updated state of the board after the player's move.
+        const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
+        setHistory(nextHistory);
+        setCurrentMove(nextHistory.length - 1);
     }
+    function jumpTo(nextMove) {
+        setCurrentMove(nextMove);
+    }
+
+    // `move`: the index of `squares`
+    const moves = history.map((squares, move) => {
+        let description;
+        move > 0
+            ? (description = `Go to move #${move}`)
+            : (description = "Go to game start");
+
+        return (
+            <li key={move}>
+                <button onClick={() => jumpTo(move)}>{description}</button>
+            </li>
+        );
+    });
 
     return (
         <div className="game">
@@ -101,7 +121,7 @@ export default function Game() {
                 />
             </div>
             <div className="game-info">
-                <ol>{/*TODO*/}</ol>
+                <ol>{moves}</ol>
             </div>
         </div>
     );
