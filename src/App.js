@@ -58,6 +58,7 @@ export default function Game() {
     const [history, setHistory] = useState([Array(9).fill(null)]);
     // keep track of which step the user is currently viewing
     const [currentMove, setCurrentMove] = useState(0);
+    const [sortAscending, setSortAscending] = useState(true);
     // even number, determines "X" or "O"
     const xIsNext = currentMove % 2 === 0;
     const currentSquares = history[currentMove];
@@ -72,9 +73,12 @@ export default function Game() {
     function jumpTo(nextMove) {
         setCurrentMove(nextMove);
     }
+    function toggleSortOrder() {
+        setSortAscending(!sortAscending);
+    }
 
     // `move`: the index of `squares`
-    const moves = history.map((squares, move) => {
+    let moves = history.map((squares, move) => {
         let description;
         move > 0
             ? (description = `Go to move #${move}`)
@@ -87,6 +91,10 @@ export default function Game() {
         );
     });
 
+    if (!sortAscending) {
+        moves = moves.reverse();
+    }
+
     return (
         <div className="game">
             <div className="game-board">
@@ -97,6 +105,11 @@ export default function Game() {
                 />
             </div>
             <div className="game-info">
+                <div>
+                    <button onClick={toggleSortOrder}>
+                        {sortAscending ? "Sort Descending" : "Sort Ascending"}
+                    </button>
+                </div>
                 <ul>{moves}</ul>
                 <p>
                     {currentMove
