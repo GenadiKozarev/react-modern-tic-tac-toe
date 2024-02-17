@@ -1,25 +1,32 @@
 import { useState } from "react";
 
-function Square({ value, onSquareClick }) {
+function Square({ value, onSquareClick, isWinningSquare }) {
     return (
-        <button className="square" onClick={onSquareClick}>
+        <button
+            className={isWinningSquare ? "square highlight" : "square"}
+            onClick={onSquareClick}
+        >
             {value}
         </button>
     );
 }
 
 function Board({ xIsNext, squares, onPlay }) {
-    const winner = calculateWinner(squares);
+    const { winner, winningSquares } = calculateWinnerInfo(squares);
     let status;
+    const isDraw = squares.every(square => square !== null);
+
     if (winner) {
         status = `Winner: ${winner}`;
+    } else if (isDraw) {
+        status = "It's a draw!";
     } else {
         status = `Next player: ${xIsNext ? "X" : "O"}`;
     }
 
     function handleClick(i) {
         // if a square is already filled OR there is a winner
-        if (squares[i] || calculateWinner(squares)) {
+        if (squares[i] || winner) {
             return;
         }
         const nextSquares = squares.slice();
@@ -29,8 +36,15 @@ function Board({ xIsNext, squares, onPlay }) {
     }
 
     function renderSquare(index) {
+        const isWinningSquare = winningSquares && winningSquares.includes(index);
+
         return (
-            <Square key={index} value={squares[index]} onSquareClick={() => handleClick(index)} />
+            <Square
+                key={index}
+                value={squares[index]}
+                onSquareClick={() => handleClick(index)}
+                isWinningSquare={isWinningSquare}
+            />
         );
     }
 
@@ -121,7 +135,7 @@ export default function Game() {
     );
 }
 
-function calculateWinner(squares) {
+function calculateWinnerInfo(squares) {
     const winningCombinations = [
         [0, 1, 2], // Top row
         [3, 4, 5], // Middle row
@@ -142,10 +156,8 @@ function calculateWinner(squares) {
             squares[a] === squares[b] &&
             squares[a] === squares[c]
         ) {
-            // If a winning combination is found, return the value of the winning square.
-            // This value represents the symbol ('X' or 'O') of the player who won.
-            return squares[a];
+            return { winner: squares[a], winningSquares: [a, b, c] };
         }
     }
-    return null;
+    return {};
 }
