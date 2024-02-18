@@ -1,11 +1,14 @@
+@import url("https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap");
+
 * {
   box-sizing: border-box;
 }
 
 body {
-  font-family: sans-serif;
+  font-family: "Fredoka One", sans-serif;
   margin: 20px;
   padding: 0;
+  background-color: #000;
 }
 
 h1 {
@@ -50,25 +53,39 @@ ul {
   box-sizing: border-box;
 }
 
-body {
-  font-family: sans-serif;
-  margin: 20px;
-  padding: 0;
-}
-
 .square {
-  background: #fff;
+  background: #000;
   border: 1px solid #999;
   float: left;
-  font-size: 24px;
+  font-size: 55px;
   font-weight: bold;
   line-height: 34px;
-  height: 34px;
+  height: 68px;
   margin-right: -1px;
   margin-top: -1px;
   padding: 0;
   text-align: center;
-  width: 34px;
+  width: 68px;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke-width: 1.5px;
+
+  &.square-x {
+    text-shadow:
+    0 0 20px #4681ff,
+    0 0 60px #4681ff,
+    0 0 80px #4681ff
+  }
+
+  &.square-o {
+    text-shadow:
+    0 0 20px #ff3333,
+    0 0 60px #ff3333,
+    0 0 80px #ff3333
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .board-row:after {
@@ -78,21 +95,62 @@ body {
 }
 
 .status {
-  margin-bottom: 10px;
+  font-size: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #fff;
 }
+
 .game {
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  margin-top: 50px;
 }
 
 .game-info {
-  margin-left: 20px;
+  width: 135px;
+  margin-top: 43px;
+  margin-right: 20px;
   & ul {
     list-style-type: none;
     padding-left: 0;
   }
 }
 
+.game-info-btn {
+  width: 130px;
+  line-height: 30px;
+}
+
+@keyframes pulse
+{
+0% {background-color:#333;}
+50% {background-color: #49ff74;}
+100% {background-color: #333;}
+}
+
 .highlight {
-  background-color: yellowgreen;
+    animation: pulse 2s infinite;
+}
+
+button {
+  color: #fff;
+  background-color: #000;
+  font-family: "Fredoka One", sans-serif;
+  border: 0.75px solid #fff;
+  &.game-info-btn:hover {
+    color: #000;
+    background-color: #fff;
+    cursor: pointer;
+  }
+}
+
+p {
+  color: #fff;
+  width: 204px;
+  line-height: 20px;
+  font-size: 13px;
+  text-align: center;
+  margin-top: 20px;
 }

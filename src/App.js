@@ -3,7 +3,9 @@ import { useState } from "react";
 function Square({ value, onSquareClick, isWinningSquare }) {
     return (
         <button
-            className={isWinningSquare ? "square highlight" : "square"}
+            className={`${isWinningSquare ? "square highlight" : "square"} ${
+                value === "X" ? "square-x" : "square-o"
+            }`}
             onClick={onSquareClick}
         >
             {value}
@@ -17,7 +19,7 @@ function Board({ xIsNext, squares, onPlay }) {
     const isDraw = squares.every(square => square !== null);
 
     if (winner) {
-        status = `Winner: ${winner}`;
+        status = `The winner is ${winner}!`;
     } else if (isDraw) {
         status = "It's a draw!";
     } else {
@@ -100,7 +102,9 @@ export default function Game() {
 
         return (
             <li key={move}>
-                <button onClick={() => jumpTo(move)}>{description}</button>
+                <button className="game-info-btn" onClick={() => jumpTo(move)}>
+                    {description}
+                </button>
             </li>
         );
     });
@@ -111,20 +115,22 @@ export default function Game() {
 
     return (
         <div className="game">
-            <div className="game-board">
-                <Board
-                    xIsNext={xIsNext}
-                    squares={currentSquares}
-                    onPlay={handlePlay}
-                />
-            </div>
             <div className="game-info">
                 <div>
-                    <button onClick={toggleSortOrder}>
+                    <button onClick={toggleSortOrder} className="game-info-btn">
                         {sortAscending ? "Sort Descending" : "Sort Ascending"}
                     </button>
                 </div>
                 <ul>{moves}</ul>
+            </div>
+            <div>
+                <div className="game-board">
+                    <Board
+                        xIsNext={xIsNext}
+                        squares={currentSquares}
+                        onPlay={handlePlay}
+                    />
+                </div>
                 <p>
                     {currentMove
                         ? `You are at move #${currentMove + 1}`
