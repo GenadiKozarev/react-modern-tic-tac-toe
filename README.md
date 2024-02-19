@@ -1,5 +1,7 @@
 ## Neon Tic-Tac-Toe game
 
+Live: https://neon-tic-tac-toe-by-genadi-kozarev.netlify.app/
+
 ### Build with **React**.
 
 This Tic-Tac-Toe game:
